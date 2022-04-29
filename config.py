@@ -8,5 +8,5 @@ args = argparse.Namespace(
     gamma2=0.9,
     epsillon=1e-8,
     alpha=0.2,
-    metadata='/Users/aman/Documents/mnist_train.csv'
+    metadata='./data/mnist_train.csv'
 )
