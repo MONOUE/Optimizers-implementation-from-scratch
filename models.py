@@ -1,4 +1,7 @@
 from optimizers import *
+import numpy as np
+import pandas as pd
+
 class NeuralNetwork:
     def __init__(self,input_dim,hidden_dim,output_dim,optim='adam',batch_size=64,epochs=10, lr=0.001, gamma1=0.9, gamma2=0.9,epsillon=1e-8, alpha=0.2):
         np.random.seed(0)
@@ -40,22 +43,22 @@ class NeuralNetwork:
       return self.output
     def backprop(self, x,y,epoch,iteration):
     # application of the chain rule to find derivative of the loss function with respect to weights2 and weights1
-    d_weights2 = -np.dot(self.layer1.T, (2*(y-self.output ) * self.sigmoid_derivative(self.output)))
-    d_weights1 = -np.dot(x.T,  (np.dot(2*(y-self.output) * self.sigmoid_derivative(self.output), self.weights2.T) * self.sigmoid_derivative(self.layer1)))
-    
-    d_bias2 = -(2*(y-self.output ) * self.sigmoid_derivative(self.output))
-    d_bias1 = -(np.dot(2*(y-self.output) * self.sigmoid_derivative(self.output), self.weights2.T) * self.sigmoid_derivative(self.layer1))
-    d_bias1= np.sum(d_bias1, axis=0).reshape(1,-1)
-    d_bias2= np.sum(d_bias2, axis=0).reshape(1,-1)
-    if self.optim=='adam':
-        optim_adam(self, d_weights1,d_weights2,d_bias1,d_bias2,epoch,iteration)
-    elif self.optim=='sgd':
-        optim_sgd(self, d_weights1,d_weights2,d_bias1,d_bias2)
-    elif self.optim=='momentum':
-        optim_momentum(self, d_weights1,d_weights2,d_bias1,d_bias2)
-    elif self.optim=='rmsprop':
-        optim_rmsprop(self, d_weights1,d_weights2,d_bias1,d_bias2)
-    elif self.optim=='adagrad':
-        optim_adagrad(self, d_weights1,d_weights2,d_bias1,d_bias2)
-    else:
-        print("No optim found!")
+      d_weights2 = -np.dot(self.layer1.T, (2*(y-self.output ) * self.sigmoid_derivative(self.output)))
+      d_weights1 = -np.dot(x.T,  (np.dot(2*(y-self.output) * self.sigmoid_derivative(self.output), self.weights2.T) * self.sigmoid_derivative(self.layer1)))
+      
+      d_bias2 = -(2*(y-self.output ) * self.sigmoid_derivative(self.output))
+      d_bias1 = -(np.dot(2*(y-self.output) * self.sigmoid_derivative(self.output), self.weights2.T) * self.sigmoid_derivative(self.layer1))
+      d_bias1= np.sum(d_bias1, axis=0).reshape(1,-1)
+      d_bias2= np.sum(d_bias2, axis=0).reshape(1,-1)
+      if self.optim=='adam':
+          optim_adam(self, d_weights1,d_weights2,d_bias1,d_bias2,epoch,iteration)
+      elif self.optim=='sgd':
+          optim_sgd(self, d_weights1,d_weights2,d_bias1,d_bias2)
+      elif self.optim=='momentum':
+          optim_momentum(self, d_weights1,d_weights2,d_bias1,d_bias2)
+      elif self.optim=='rmsprop':
+          optim_rmsprop(self, d_weights1,d_weights2,d_bias1,d_bias2)
+      elif self.optim=='adagrad':
+          optim_adagrad(self, d_weights1,d_weights2,d_bias1,d_bias2)
+      else:
+          print("No optim found!")
